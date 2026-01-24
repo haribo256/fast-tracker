@@ -1,0 +1,96 @@
+// Fast Tracker - Intermittent Fasting Tracker
+// A simple hello-world app compatible with Deno Deploy
+
+const port = Number(Deno.env.get("PORT")) || 8000;
+
+Deno.serve({ port }, (req: Request) => {
+  const url = new URL(req.url);
+  
+  if (url.pathname === "/") {
+    return new Response(
+      `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Tracker</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        h1 {
+            font-size: 3em;
+            margin: 0 0 20px 0;
+            text-align: center;
+        }
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .emoji {
+            font-size: 4em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .info {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">🚀</div>
+        <h1>Fast Tracker</h1>
+        <p>Your personal intermittent fasting tracker</p>
+        <p><strong>No ads. No data collection. Just you and your goals.</strong></p>
+        
+        <div class="info">
+            <h2>✨ Hello World!</h2>
+            <p>This is a Deno Deploy compatible application.</p>
+            <p>Stay tuned for more features coming soon!</p>
+        </div>
+    </div>
+</body>
+</html>`,
+      {
+        headers: {
+          "content-type": "text/html; charset=utf-8",
+        },
+      }
+    );
+  }
+  
+  if (url.pathname === "/api/health") {
+    return new Response(
+      JSON.stringify({ 
+        status: "ok", 
+        timestamp: new Date().toISOString(),
+        message: "Fast Tracker is running!"
+      }),
+      {
+        headers: {
+          "content-type": "application/json; charset=utf-8",
+        },
+      }
+    );
+  }
+  
+  return new Response("Not Found", { status: 404 });
+});
