@@ -1,6 +1,10 @@
 {
   "tasks": {
-    "dev": "deno run --allow-net --allow-env --watch main.ts",
-    "start": "deno run --allow-net --allow-env main.ts"
+    "dev": "deno run --tunnel --allow-net --allow-env --watch main.ts",
+    "start": "deno run --tunnel --allow-net --allow-env main.ts"
+  },
+  "deploy": {
+    "org": "haribo256",
+    "app": "fast-tracker"
   }
 }
