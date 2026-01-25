@@ -10,7 +10,6 @@ export class AppOidcHandling {
   private static authorizationServer: oauth.AuthorizationServer | undefined
 
   public static async initOidc() {
-    console.info('Initializing OIDC...')
     await this.getOrDiscoverAuthorizationServer()
   }
 
@@ -19,7 +18,7 @@ export class AppOidcHandling {
       return this.authorizationServer
     }
 
-    console.info('Discovering OIDC authorization server...')
+    console.info(`Discovering OIDC authorization server [${settings.oidcIssuer}]`)
     const issuerUrl = new URL(settings.oidcIssuer)
     const discoveryResponse = await oauth.discoveryRequest(issuerUrl, { algorithm: 'oidc' })
     this.authorizationServer = await oauth.processDiscoveryResponse(issuerUrl, discoveryResponse)
@@ -85,7 +84,6 @@ oidcApp.get('/login', async (ctx) => {
   const codeVerifier = oauth.generateRandomCodeVerifier()
   const codeChallenge = await oauth.calculatePKCECodeChallenge(codeVerifier)
   const callbackUrl = new URL('/oidc/callback', ctx.req.url)
-  console.debug('OIDC Login Callback URL:', callbackUrl.toString())
 
   const authorizationUrl = new URL(authorizationServer.authorization_endpoint!)
   authorizationUrl.searchParams.set('client_id', settings.oidcClientId)
