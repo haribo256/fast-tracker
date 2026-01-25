@@ -52,7 +52,8 @@ export function requireAuthenticated(fn: (ctx: Context, user: CurrentUser) => Pr
   return async (ctx: Context) => {
     const user = await AppSession.getAuthenticatedUser(ctx)
     if (!user) {
-      return ctx.redirect('/login', 302)
+      const returnTo = encodeURIComponent(ctx.req.path)
+      return ctx.redirect(`/login?returnTo=${returnTo}`, 302)
     }
 
     return await fn(ctx, user)
