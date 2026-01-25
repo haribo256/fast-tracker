@@ -1,0 +1,22 @@
+{
+  "version": "5",
+  "specifiers": {
+    "npm:hono@^4.11.5": "4.11.5",
+    "npm:oauth4webapi@*": "3.8.3",
+    "npm:oauth4webapi@^3.8.3": "3.8.3"
+  },
+  "npm": {
+    "hono@4.11.5": {
+      "integrity": "sha512-WemPi9/WfyMwZs+ZUXdiwcCh9Y+m7L+8vki9MzDw3jJ+W9Lc+12HGsd368Qc1vZi1xwW8BWMMsnK5efYKPdt4g=="
+    },
+    "oauth4webapi@3.8.3": {
+      "integrity": "sha512-pQ5BsX3QRTgnt5HxgHwgunIRaDXBdkT23tf8dfzmtTIL2LTpdmxgbpbBm0VgFWAIDlezQvQCTgnVIUmHupXHxw=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "npm:hono@^4.11.5",
+      "npm:oauth4webapi@^3.8.3"
+    ]
+  }
+}

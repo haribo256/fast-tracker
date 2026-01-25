@@ -37,7 +37,3 @@ The app will be available at `http://localhost:8000` (or the port specified by t
 
 - `GET /` - Main application page
 - `GET /api/health` - Health check endpoint
-
-## License
-
-MIT
