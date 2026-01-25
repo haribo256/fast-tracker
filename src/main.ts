@@ -1,23 +1,34 @@
-import { Hono } from "hono";
-import { getAuthenticatedUser, oidcApp } from "./oidc.ts";
+import { Hono } from 'hono'
+import { AppOidcHandling, oidcApp } from './oidc.ts'
+import { useSession } from '@hono/session'
+import { allowAnonymous, requireAuthenticated } from './session.ts'
+import { useSettings } from './settings.ts'
 
+const settings = useSettings()
+await AppOidcHandling.initOidc()
 
-const port = Number(Deno.env.get("PORT")) || 8000;
-const app = new Hono();
+const app = new Hono()
 
-app.get("/", (c) => {
-  console.log("Root path requested");
-  const user = getAuthenticatedUser(c.req.raw);
-  const userBlock = user
-    ? `
+app.use(useSession({
+  secret: settings.sessionSecret,
+}))
+
+app.get(
+  '/',
+  allowAnonymous(async (ctx, user) => {
+    console.debug('Authenticated user:', user)
+
+    const userBlock = user
+      ? `
         <div class="info">
             <h2>👋 Welcome home</h2>
-            <p><strong>${user.name ?? "User"}</strong></p>
-            ${user.email ? `<p>${user.email}</p>` : ""}
+            <p><strong>${user.name ?? 'User'}</strong></p>
+            ${user.email ? `<p>${user.email}</p>` : ''}
         </div>`
-    : "";
-  return new Response(
-    `<!DOCTYPE html>
+      : ''
+
+    return ctx.html(
+      `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -79,47 +90,37 @@ app.get("/", (c) => {
     </div>
 </body>
 </html>`,
-    {
-      headers: {
-        "content-type": "text/html; charset=utf-8",
-      },
-    },
-  );
-});
+    )
+  }),
+)
 
-app.get("/api/health", () => {
-  console.log("Health check requested");
-  return new Response(
-    JSON.stringify({
-      status: "ok",
+app.get(
+  '/api/health',
+  allowAnonymous(async (ctx) => {
+    console.log('Health check requested')
+    return ctx.json({
+      status: 'ok',
       timestamp: new Date().toISOString(),
-      message: "Fast Tracker is running!",
-    }),
-    {
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
-    },
-  );
-});
+      message: 'Fast Tracker is running!',
+    })
+  }),
+)
 
-app.get("/fasts", (c) => {
-  const user = getAuthenticatedUser(c.req.raw);
-  if (!user) {
-    const returnTo = new URL(c.req.url).pathname;
-    return c.redirect(`/login?returnTo=${encodeURIComponent(returnTo)}`);
-  }
+app.get(
+  '/fasts',
+  requireAuthenticated(async (ctx, user) => {
+    console.log('Fasts path requested')
+    return await ctx.json({
+      user,
+      fasts: [],
+    })
+  }),
+)
 
-  return c.json({
-    user,
-    fasts: [],
-  });
-});
+app.route('/', oidcApp)
 
-app.route("/", oidcApp);
+app.notFound(() => new Response('Not Found', { status: 404 }))
 
-app.notFound(() => new Response("Not Found", { status: 404 }));
+Deno.serve({ port: settings.port }, app.fetch)
 
-Deno.serve({ port }, app.fetch);
-
-console.log(`Server running on http://localhost:${port}`);
+console.log(`Server running on http://localhost:${settings.port}`)

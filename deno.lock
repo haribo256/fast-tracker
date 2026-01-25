@@ -1,13 +1,35 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@hono/oidc-auth@*": "1.8.0_hono@4.11.5",
+    "npm:@hono/session@0.2": "0.2.0_hono@4.11.5",
     "npm:hono@^4.11.5": "4.11.5",
     "npm:oauth4webapi@*": "3.8.3",
     "npm:oauth4webapi@^3.8.3": "3.8.3"
   },
   "npm": {
+    "@hono/oidc-auth@1.8.0_hono@4.11.5": {
+      "integrity": "sha512-SYCSdmgNhGqUuBQvIgPvqXYKR/TTSSpe+nEgxkftN3qGlrFofjTPVqsUsprKFHVJAt4eLQRhqmVrx71mQCAKig==",
+      "dependencies": [
+        "hono",
+        "oauth4webapi@2.17.0"
+      ]
+    },
+    "@hono/session@0.2.0_hono@4.11.5": {
+      "integrity": "sha512-tn9OVxZb7PiQXwDFu4nSju9Mcjy0NP3ozrdGM/41YKTubW9kfjnBaib1kpygyU1lCuScP6PjCQ0AEfSDyEnr6A==",
+      "dependencies": [
+        "hono",
+        "jose"
+      ]
+    },
     "hono@4.11.5": {
       "integrity": "sha512-WemPi9/WfyMwZs+ZUXdiwcCh9Y+m7L+8vki9MzDw3jJ+W9Lc+12HGsd368Qc1vZi1xwW8BWMMsnK5efYKPdt4g=="
+    },
+    "jose@6.1.3": {
+      "integrity": "sha512-0TpaTfihd4QMNwrz/ob2Bp7X04yuxJkjRGi4aKmOqwhov54i6u79oCv7T+C7lo70MKH6BesI3vscD1yb/yzKXQ=="
+    },
+    "oauth4webapi@2.17.0": {
+      "integrity": "sha512-lbC0Z7uzAFNFyzEYRIC+pkSVvDHJTbEW+dYlSBAlCYDe6RxUkJ26bClhk8ocBZip1wfI9uKTe0fm4Ib4RHn6uQ=="
     },
     "oauth4webapi@3.8.3": {
       "integrity": "sha512-pQ5BsX3QRTgnt5HxgHwgunIRaDXBdkT23tf8dfzmtTIL2LTpdmxgbpbBm0VgFWAIDlezQvQCTgnVIUmHupXHxw=="
@@ -15,6 +37,7 @@
   },
   "workspace": {
     "dependencies": [
+      "npm:@hono/session@0.2",
       "npm:hono@^4.11.5",
       "npm:oauth4webapi@^3.8.3"
     ]

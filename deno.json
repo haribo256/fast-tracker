@@ -1,14 +1,23 @@
 {
+  "main": "src/main.ts",
+  "author": "James Harrison",
   "tasks": {
-    "dev": "deno run --tunnel --allow-net --allow-env --watch main.ts",
-    "start": "deno run --tunnel --allow-net --allow-env main.ts"
+    "dev": "deno run --tunnel --allow-net --allow-env --watch src/main.ts",
+    "start": "deno run --tunnel --allow-net --allow-env src/main.ts"
   },
   "deploy": {
     "org": "haribo256",
     "app": "fast-tracker"
   },
   "imports": {
+    "@hono/session": "npm:@hono/session@^0.2.0",
     "hono": "npm:hono@^4.11.5",
     "oauth4webapi": "npm:oauth4webapi@^3.8.3"
+  },
+  "fmt": {
+    "indentWidth": 2,
+    "lineWidth": 300,
+    "singleQuote": true,
+    "semiColons": false
   }
 }
