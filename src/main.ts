@@ -17,8 +17,12 @@ app.use(useSession({
 app.get(
   '/',
   allowAnonymous(async (ctx, user) => {
-    const userBlock = user
-      ? html`
+    let userBlock = html`
+
+    `
+
+    if (user) {
+      userBlock = html`
         <div class="info">
           <h2>👋 Welcome home</h2>
           <p><strong>${user.name ?? 'User'}</strong></p>
@@ -29,7 +33,7 @@ app.get(
             : ''}
         </div>
       `
-      : ''
+    }
 
     return ctx.html(
       html`
@@ -77,9 +81,22 @@ app.get(
               padding: 20px;
               margin-top: 30px;
             }
+            a:visited, a:link {
+              color: #ffffff;
+              text-decoration: none;
+              font-weight: bold;
+            }
+            a:hover {
+              text-decoration: underline;
+            }
             </style>
           </head>
           <body>
+            <div class="container">
+              <a href="/login">Sign In</a> |
+              <a href="/logout">Sign Out</a>
+            </div>
+            <br>
             <div class="container">
               <div class="emoji">🚀</div>
               <h1>Fast Tracker</h1>
