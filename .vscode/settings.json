@@ -3,5 +3,10 @@
         "editor.defaultFormatter": "denoland.vscode-deno",
         "editor.formatOnSave": true,
         "files.autoSave": "onFocusChange"
+    },
+    "[jade]": {
+        "editor.defaultFormatter": "ducfilan.pug-formatter",
+        "editor.formatOnSave": true,
+        "files.autoSave": "onFocusChange"
     }
 }

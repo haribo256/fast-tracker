@@ -4,11 +4,21 @@ import { AppOidcHandling, oidcApp } from './oidc.ts'
 import { useSession } from '@hono/session'
 import { allowAnonymous, requireAuthenticated } from './session.ts'
 import { useSettings } from './settings.ts'
+import * as pug from 'pug'
 
 const settings = useSettings()
 await AppOidcHandling.initOidc()
 
 const app = new Hono()
+
+const htmlTemplate = `doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Fast Tracker
+  body
+    p Text`
 
 app.use(useSession({
   secret: settings.sessionSecret,
@@ -121,7 +131,7 @@ app.get(
   '/api/health',
   allowAnonymous(async (ctx) => {
     console.log('Health check requested')
-    return ctx.json({
+    return await ctx.json({
       status: 'ok',
       timestamp: new Date().toISOString(),
       message: 'Fast Tracker is running!',

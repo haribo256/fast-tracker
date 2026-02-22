@@ -12,7 +12,8 @@
   "imports": {
     "@hono/session": "npm:@hono/session@^0.2.0",
     "hono": "npm:hono@^4.11.5",
-    "oauth4webapi": "npm:oauth4webapi@^3.8.3"
+    "oauth4webapi": "npm:oauth4webapi@^3.8.3",
+    "pug": "npm:pug@^3.0.3"
   },
   "fmt": {
     "indentWidth": 2,
